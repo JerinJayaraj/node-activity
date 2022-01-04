@@ -20,7 +20,7 @@ exports.addSongsToAlbum = async(req,res) => {
 
 exports.getAllSongsByAlbumId = async(req,res) => {
   try{
-    const { albumId } = req.params
+    const { albumId } = req.query
     let responseData = {}
     const countDocuments = await Songs.find({albumId: albumId}).count()
     if(countDocuments) responseData.count = countDocuments
