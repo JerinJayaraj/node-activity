@@ -14,10 +14,10 @@ exports.addSongsToAlbum = async(req,res) => {
     
     const data = await Songs.create(trackData)
     console.log(data)
-    if(data) return res.status(200).send(data)
-    else return res.status(400).send(data);
+    if(data) return { status: true, data: data, code: 200 }
+    else return { status: false, data: data, code: 400 }
   } catch (error) {
-    return res.status(500).send(error);
+    return ({ status: false, data: "INTERNAL_SERVER_ERROR", code: 500 })
   }
 }
 
@@ -26,9 +26,9 @@ exports.getAllSongsByAlbumId = async(req,res) => {
     const { albumId } = req.params
     const data = await Songs.find({albumId: albumId})
     // console.log(data)
-    if(data) return res.status(200).send(data)
-    else return res.status(400).send(data);
+    if(data) return { status: true, data: data, code: 200 }
+    else return { status: false, data: data, code: 400 }
   } catch (error) {
-    return res.status(500).send(error);
+    return ({ status: false, data: "INTERNAL_SERVER_ERROR", code: 500 })
   }
 }

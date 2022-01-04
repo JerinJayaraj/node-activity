@@ -1,9 +1,9 @@
 const express = require('express')
 const router = express.Router()
-const albumService = require("../service/albumService")
+const albumHelper = require("../helper/albumHelper")
 
-router.post('/', albumService.createAlbum)
-router.get('/', albumService.getAllAlbums)
+router.post('/', albumHelper.createAlbum)
+router.get('/', albumHelper.getAllAlbums)
 
 
 module.exports = router

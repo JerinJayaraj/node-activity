@@ -1,9 +1,9 @@
 const express = require('express')
 const router = express.Router()
-const songService = require("../service/songService")
+const songHelper = require("../helper/songHelper")
 
-router.post('/', songService.addSongsToAlbum)
-router.get('/:albumId', songService.getAllSongsByAlbumId)
+router.post('/', songHelper.addSongsToAlbum)
+router.get('/:albumId', songHelper.getAllSongsByAlbumId)
 
 
 module.exports = router

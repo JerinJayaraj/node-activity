@@ -3,7 +3,6 @@ const Songs = require('../models/songs')
 
 exports.createAlbum = async(req,res) => {
   try{
-    console.log("in Post")
     const { albumName, artistName } = req.body
     // console.log(albumName, artistName);
     const albumData = {
@@ -14,10 +13,10 @@ exports.createAlbum = async(req,res) => {
     
     const data = await Albums.create(albumData)
     // console.log(data)
-    if(data) return res.status(200).send(data)
-    else return res.status(400).send(data);
+    if(data) return { status: true, data: data, code: 200 }
+    else return { status: false, data: data, code: 400 }
   } catch (error) {
-    return res.status(500).send(error);
+    return ({ status: false, data: "INTERNAL_SERVER_ERROR", code: 500 })
   }
 }
 
@@ -25,9 +24,9 @@ exports.getAllAlbums = async(req,res) => {
   try{
     const data = await Albums.find({})
     // console.log(data)
-    if(data) return res.status(200).send(data)
-    else return res.status(400).send(data);
+    if(data) return { status: true, data: data, code: 200 }
+    else return { status: false, data: data, code: 400 }
   } catch (error) {
-    return res.status(500).send(error);
+    return ({ status: false, data: "INTERNAL_SERVER_ERROR", code: 500 })
   }
 }
