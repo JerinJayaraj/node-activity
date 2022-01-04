@@ -10,8 +10,8 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 // app.use(cors());
 
-app.use("/api/albums", require("./routes/albumRoutes"));
-app.use("/api/songs", require("./routes/songRoutes"));
+app.use("/api/album", require("./routes/albumRoutes"));
+app.use("/api/song", require("./routes/songRoutes"));
 
 //mongoDb connection
 mongoose

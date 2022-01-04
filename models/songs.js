@@ -11,6 +11,7 @@ const songSchema = new mongoose.Schema({
     },
     albumId:{
         type:String,
+        required:true
     },
     createdDate:{
         type:Date,

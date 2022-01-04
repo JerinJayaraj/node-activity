@@ -3,11 +3,11 @@ const Songs = require('../models/songs')
 exports.addSongsToAlbum = async(req,res) => {
   try{
     console.log("in Post")
-    const { songName, songTime, albumId } = req.body
-    console.log(songName, songTime, albumId);
+    const { trackName, tackTime, albumId } = req.body
+    console.log(trackName, tackTime, albumId);
     const trackData = {
-        songName,
-        songTime,
+        songName: trackName,
+        songTime: tackTime,
         albumId,
         createdDate: new Date(),
     }
