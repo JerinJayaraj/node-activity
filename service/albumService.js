@@ -4,7 +4,6 @@ const Songs = require('../models/songs')
 exports.createAlbum = async(req,res) => {
   try{
     const { albumName, artistName } = req.body
-    // console.log(albumName, artistName);
     const albumData = {
         name: albumName,
         artistName,
@@ -12,9 +11,8 @@ exports.createAlbum = async(req,res) => {
     }
     
     const data = await Albums.create(albumData)
-    // console.log(data)
     if(data) return { status: true, data: data, code: 200 }
-    else return { status: false, data: data, code: 400 }
+    else return { status: false, data: "Failed to insert data", code: 400 }
   } catch (error) {
     return ({ status: false, data: "INTERNAL_SERVER_ERROR", code: 500 })
   }
@@ -22,10 +20,15 @@ exports.createAlbum = async(req,res) => {
 
 exports.getAllAlbums = async(req,res) => {
   try{
-    const data = await Albums.find({})
-    // console.log(data)
-    if(data) return { status: true, data: data, code: 200 }
-    else return { status: false, data: data, code: 400 }
+    let responseData = {}
+    const count = await Albums.find({}).count()
+    if(count) responseData.count = count
+    const albums = await Albums.find({})
+    if(albums.length > 0) {
+      responseData.data = albums
+      return { status: true, data: responseData, code: 200 }
+    }
+    else return { status: false, data: "No albums found", code: 400 }
   } catch (error) {
     return ({ status: false, data: "INTERNAL_SERVER_ERROR", code: 500 })
   }

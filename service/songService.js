@@ -2,9 +2,7 @@ const Songs = require('../models/songs')
 
 exports.addSongsToAlbum = async(req,res) => {
   try{
-    console.log("in Post")
     const { trackName, tackTime, albumId } = req.body
-    console.log(trackName, tackTime, albumId);
     const trackData = {
         songName: trackName,
         songTime: tackTime,
@@ -12,10 +10,9 @@ exports.addSongsToAlbum = async(req,res) => {
         createdDate: new Date(),
     }
     
-    const data = await Songs.create(trackData)
-    console.log(data)
-    if(data) return { status: true, data: data, code: 200 }
-    else return { status: false, data: data, code: 400 }
+    const songData = await Songs.create(trackData)
+    if(songData) return { status: true, data: songData, code: 200 }
+    else return { status: false, data: "Failed to insert data", code: 400 }
   } catch (error) {
     return ({ status: false, data: "INTERNAL_SERVER_ERROR", code: 500 })
   }
@@ -24,10 +21,16 @@ exports.addSongsToAlbum = async(req,res) => {
 exports.getAllSongsByAlbumId = async(req,res) => {
   try{
     const { albumId } = req.params
-    const data = await Songs.find({albumId: albumId})
-    // console.log(data)
-    if(data) return { status: true, data: data, code: 200 }
-    else return { status: false, data: data, code: 400 }
+    let responseData = {}
+    const countDocuments = await Songs.find({albumId: albumId}).count()
+    if(countDocuments) responseData.count = countDocuments
+
+    const songsOfAlbum = await Songs.find({albumId: albumId})
+    if(songsOfAlbum.length > 0){
+        responseData.data = songsOfAlbum
+        return { status: true, data: responseData, code: 200 }
+    } 
+    else return { status: false, data: "No songs found for the albumId", code: 400 }
   } catch (error) {
     return ({ status: false, data: "INTERNAL_SERVER_ERROR", code: 500 })
   }
